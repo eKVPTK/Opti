@@ -6,7 +6,7 @@ class ApiError extends Error {
     }
 
     static badRequest(message) {
-        return new ApiError(400, message); // Изменено на 400
+        return new ApiError(400, message); 
     }
 
     static internal(message) {
@@ -18,7 +18,7 @@ class ApiError extends Error {
     }
 
     static notFound(message) {
-        return new ApiError(404, message); // Оставил 404 для случаев, когда ресурс не найден
+        return new ApiError(404, message); 
     }
 }
 

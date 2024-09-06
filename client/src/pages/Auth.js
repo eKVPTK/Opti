@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { registration, login } from "../http/userAPI";
 import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from "../utils/consts";
-import { useUserStore } from "../store/UserStore"; // Импортируем кастомный хук для использования состояния пользователя
+import { useUserStore } from "../store/UserStore"; 
 
 const Auth = () => {
-    const { user, login: setUserLogin } = useUserStore();  // Получаем доступ к user и функции login из UserStore
+    const { user, login: setUserLogin } = useUserStore();  
     const location = useLocation();
     const navigate = useNavigate();
     const isLogin = location.pathname === LOGIN_ROUTE;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState('USER');  // По умолчанию роль "Покупатель"
+    const [role, setRole] = useState('USER');  
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [error, setError] = useState('');
@@ -32,7 +32,7 @@ const Auth = () => {
                     setError('Некорректный email');
                     return;
                 } else {
-                    // Логинимся и получаем данные пользователя, включая роль
+                
                     data = await login(email, password);
                 }
             } else {
@@ -49,14 +49,13 @@ const Auth = () => {
                     setError('Некорректный телефон');
                     return;
                 } else {
-                    // Регистрируем нового пользователя и получаем данные пользователя, включая роль
                     data = await registration(name, phone, email, password, role);
                 }
             }
 
-            // Установка флагов авторизации и роли
-            setUserLogin(data.role);  // Устанавливаем isAuth в true и роль в UserStore
-            navigate(SHOP_ROUTE); // Переход на главную страницу после авторизации/регистрации
+           
+            setUserLogin(data.role);  
+            navigate(SHOP_ROUTE);
         } catch (e) {
             setError(e.response?.data?.message || "Ошибка входа/регистрации");
         }

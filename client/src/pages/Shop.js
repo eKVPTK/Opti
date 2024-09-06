@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchDevices, fetchBrands, fetchTypes } from '../http/deviceAPI';
 import { observer } from 'mobx-react-lite';
-import { Link } from 'react-router-dom'; // Импортируем Link
+import { Link } from 'react-router-dom';
 
 const Shop = observer(() => {
   const [devices, setDevices] = useState([]);
@@ -10,6 +10,7 @@ const Shop = observer(() => {
   const [types, setTypes] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(''); // Состояние для поиска
   const [page, setPage] = useState(1);
   const limit = 9;
 
@@ -42,15 +43,33 @@ const Shop = observer(() => {
     setPage(1); // Сброс страницы на первую при изменении фильтра
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    setPage(1); // Сброс страницы на первую при изменении поискового запроса
+  };
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1) setPage(newPage);
   };
+
+  // Фильтрация товаров на основе поискового запроса
+  const filteredDevices = devices.filter(device =>
+    device.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    device.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="shop">
       <h1>Shop</h1>
 
       <div className="filters">
+        <input
+          type="text"
+          placeholder="Поиск товаров..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        
         <select onChange={handleBrandChange} value={selectedBrand || ''}>
           <option value="">All Brands</option>
           {brands.map(brand => (
@@ -67,10 +86,10 @@ const Shop = observer(() => {
       </div>
 
       <div className="device-list">
-        {devices.length === 0 ? (
+        {filteredDevices.length === 0 ? (
           <p>Товаров пока нет!</p>
         ) : (
-          devices.map(device => (
+          filteredDevices.map(device => (
             <div key={device.id} className="device-item">
               <Link to={`/device/${device.id}`}>
                 <img
@@ -87,7 +106,7 @@ const Shop = observer(() => {
         )}
       </div>
 
-      {devices.length > 0 && (
+      {filteredDevices.length > 0 && (
         <div className="pagination">
           <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>
             Previous

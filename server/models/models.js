@@ -18,7 +18,7 @@ const BasketDevice = sequelize.define('basket_device', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     basketId: { type: DataTypes.INTEGER, allowNull: false },
     deviceId: { type: DataTypes.INTEGER, allowNull: false },
-    quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 } // Добавлено поле quantity
+    quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 } 
 });
 
 
@@ -30,7 +30,7 @@ const Device = sequelize.define('device', {
     rating: { type: DataTypes.INTEGER, defaultValue: 0 },
     img: { type: DataTypes.STRING, allowNull: false },
     phone: { type: DataTypes.STRING },
-    userId: { type: DataTypes.INTEGER, allowNull: false } // Добавлено поле для хранения ID пользователя
+    userId: { type: DataTypes.INTEGER, allowNull: false } 
 });
 
 
@@ -62,8 +62,8 @@ const TypeBrand = sequelize.define('type_brand', {
 const Comment = sequelize.define('comment', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     text: { type: DataTypes.TEXT, allowNull: false },
-    userId: { type: DataTypes.INTEGER, allowNull: false },  // Добавляем userId
-    deviceId: { type: DataTypes.INTEGER, allowNull: false }, // Добавляем deviceId
+    userId: { type: DataTypes.INTEGER, allowNull: false },  
+    deviceId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 

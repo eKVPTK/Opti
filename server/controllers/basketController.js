@@ -2,7 +2,6 @@
 // const ApiError = require('../error/ApiError');
 
 // class BasketController {
-//     // Добавление товара в корзину
 //     async addDevice(req, res, next) {
 //         try {
 //             const {deviceId, basketId} = req.body;
@@ -13,7 +12,6 @@
 //         }
 //     }
 
-//     // Получение всех товаров в корзине
 //     async getAll(req, res, next) {
 //         try {
 //             const {basketId} = req.params;
@@ -27,7 +25,6 @@
 //         }
 //     }
 
-//     // Проверка наличия товара в корзине
 //     async checkDevice(req, res, next) {
 //         try {
 //             const {basketId, deviceId} = req.params;
@@ -43,7 +40,6 @@
 //         }
 //     }
 
-//     // Удаление товара из корзины
 //     async removeDevice(req, res, next) {
 //         try {
 //             const {basketId, deviceId} = req.params;
@@ -93,23 +89,19 @@ class BasketController {
         try {
           const { userId, deviceId } = req.body;
           
-          // Находим корзину пользователя
           const basket = await Basket.findOne({ where: { userId } });
           if (!basket) {
             return next(ApiError.badRequest('Корзина не найдена'));
           }
       
-          // Проверяем, есть ли уже товар в корзине
           let basketDevice = await BasketDevice.findOne({
             where: { basketId: basket.id, deviceId }
           });
       
           if (basketDevice) {
-            // Если товар уже есть, увеличиваем количество
             basketDevice.quantity += 1;
             await basketDevice.save();
           } else {
-            // Если товара нет, добавляем его с количеством 1
             basketDevice = await BasketDevice.create({ basketId: basket.id, deviceId, quantity: 1 });
           }
           
@@ -150,13 +142,11 @@ class BasketController {
         try {
           const { userId, deviceId } = req.params;
           
-          // Находим корзину пользователя
           const basket = await Basket.findOne({ where: { userId } });
           if (!basket) {
             return res.json({ exists: false });
           }
       
-          // Проверяем наличие товара в корзине
           const basketDevice = await BasketDevice.findOne({
             where: { basketId: basket.id, deviceId }
           });
@@ -170,11 +160,10 @@ class BasketController {
       }
       
 
-    // Удаление товара из корзины
     async removeDevice(req, res, next) {
         try {
           const { deviceId } = req.params;
-          const { userId } = req.query; // Получаем userId из query параметров
+          const { userId } = req.query; 
       
           const basket = await Basket.findOne({ where: { userId } });
       

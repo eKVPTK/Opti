@@ -1,4 +1,3 @@
-// src/store/DeviceStore.js
 import React, { createContext, useContext, useState } from 'react';
 
 const DeviceContext = createContext();

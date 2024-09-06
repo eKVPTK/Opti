@@ -2,15 +2,13 @@ const { Comment, User } = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class CommentController {
-    // Создание комментария
     async create(req, res, next) {
         try {
-            const { userId, deviceId, text } = req.body; // Изменяем 'content' на 'text'
+            const { userId, deviceId, text } = req.body; 
             if (!text) {
                 return next(ApiError.badRequest('Комментарий не может быть пустым'));
             }
 
-            // Проверка на существование userId и deviceId
             if (!userId || !deviceId) {
                 return next(ApiError.badRequest('Не указан userId или deviceId'));
             }
@@ -22,13 +20,12 @@ class CommentController {
         }
     }
 
-    // Получение всех комментариев для конкретного устройства
     async getAll(req, res, next) {
         try {
             const { deviceId } = req.params;
             const comments = await Comment.findAll({
                 where: { deviceId },
-                include: [{ model: User, attributes: ['login'] }] // Убираем 'as' для корректного запроса
+                include: [{ model: User, attributes: ['login'] }]
             });
             return res.json(comments);
         } catch (error) {
@@ -36,11 +33,10 @@ class CommentController {
         }
     }
 
-    // Редактирование комментария
     async update(req, res, next) {
         try {
             const { id } = req.params;
-            const { text } = req.body; // Изменяем 'content' на 'text'
+            const { text } = req.body; 
             if (!text) {
                 return next(ApiError.badRequest('Комментарий не может быть пустым'));
             }
@@ -55,7 +51,6 @@ class CommentController {
         }
     }
 
-    // Удаление комментария
     async delete(req, res, next) {
         try {
             const { id } = req.params;

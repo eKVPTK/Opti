@@ -72,10 +72,10 @@ class DeviceController {
 
     async delete(req, res, next) {
         try {
-            const { id } = req.params; // ID устройства
-            const userId = req.user.id; // ID пользователя из JWT токена
+            const { id } = req.params; 
+            const userId = req.user.id; 
 
-            // Проверяем, что устройство принадлежит текущему пользователю
+          
             const device = await Device.findOne({ where: { id, userId } });
 
             if (!device) {
@@ -94,13 +94,11 @@ class DeviceController {
           const { id } = req.params;
           const deviceData = req.body;
       
-          // Проверьте наличие устройства перед обновлением
           const device = await Device.findByPk(id);
           if (!device) {
             return res.status(404).send('Устройство не найдено');
           }
-      
-          // Обновите устройство
+
           await Device.update(deviceData, { where: { id } });
           res.send('Устройство обновлено успешно');
         } catch (error) {

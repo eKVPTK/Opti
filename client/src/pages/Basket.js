@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchBasket, removeFromBasket, updateBasketQuantity } from '../http/basketAPI'; // Импортируем новые функции
-import { getUserIdFromToken } from '../utils/auth'; // Импортируем функцию для получения userId
+import { getUserIdFromToken } from '../utils/auth'; 
 
 const Basket = () => {
   const [basketItems, setBasketItems] = useState([]);
@@ -21,7 +21,7 @@ const Basket = () => {
       try {
         const basketData = await fetchBasket(userId);
         setBasketItems(basketData);
-        calculateTotalPrice(basketData); // Вычисляем общую сумму при загрузке
+        calculateTotalPrice(basketData); 
       } catch (error) {
         setError('Error fetching basket data');
         console.error('Error fetching basket data:', error);
@@ -50,7 +50,7 @@ const Basket = () => {
       await removeFromBasket(userId, deviceId);
       const updatedItems = basketItems.filter(item => item.device.id !== deviceId);
       setBasketItems(updatedItems);
-      calculateTotalPrice(updatedItems); // Обновляем общую сумму после удаления
+      calculateTotalPrice(updatedItems); 
       alert('Товар удален из корзины!');
     } catch (error) {
       setError('Error removing item from basket');
@@ -72,7 +72,7 @@ const Basket = () => {
         item.device.id === deviceId ? { ...item, quantity } : item
       );
       setBasketItems(updatedItems);
-      calculateTotalPrice(updatedItems); // Обновляем общую сумму после изменения количества
+      calculateTotalPrice(updatedItems); 
     } catch (error) {
       setError('Error updating item quantity');
       console.error('Error updating item quantity:', error);
